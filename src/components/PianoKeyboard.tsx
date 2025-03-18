@@ -69,7 +69,7 @@ const PianoKeyboard = ({ highlightedNotes, rootNote }: PianoKeyboardProps) => {
 
   const getKeyClassName = (note: string, octaveIndex: number) => {
     const fullNote = `${note}${octave + octaveIndex}`
-    if (rootNote && note === rootNote && octaveIndex === 0) {
+    if (rootNote && note === rootNote) {
       return 'root'
     }
     return highlightedNotes.includes(fullNote) ? 'highlighted' : ''

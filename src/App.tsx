@@ -55,10 +55,26 @@ const majorScaleIntervals = [0, 2, 4, 5, 7, 9, 11] // Major scale intervals: Roo
 
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
+// Map of sharp notes to their flat equivalents
+const sharpToFlat: { [key: string]: string } = {
+  'C#': 'D♭',
+  'D#': 'E♭',
+  'F#': 'G♭',
+  'G#': 'A♭',
+  'A#': 'B♭'
+}
+
+// Notes that traditionally use flats in their scales
+const flatScaleRoots = ['F', 'B♭', 'E♭', 'A♭', 'D♭', 'G♭', 'C♭']
+
 function App() {
   const [selectedChord, setSelectedChord] = useState<string>('C')
   const [showingScale, setShowingScale] = useState(false)
   const [alignMinorScale, setAlignMinorScale] = useState(false)
+
+  const convertToFlatNotation = (note: string) => {
+    return sharpToFlat[note] || note
+  }
 
   const getMajorScaleNotes = (rootNote: string) => {
     const rootIndex = notes.indexOf(rootNote)
@@ -68,7 +84,10 @@ function App() {
       const noteIndex = (rootIndex + interval) % 12
       // If we've wrapped around (noteIndex < rootIndex), use the next octave
       const octave = noteIndex < rootIndex ? 5 : 4
-      return `${notes[noteIndex]}${octave}`
+      const note = notes[noteIndex]
+      // Convert to flat notation if the root note is in flatScaleRoots
+      const displayNote = flatScaleRoots.includes(rootNote) ? convertToFlatNotation(note) : note
+      return `${displayNote}${octave}`
     })
   }
 
@@ -93,8 +112,15 @@ function App() {
       const noteIndex = (rootIndex + interval) % 12
       // If we've wrapped around (noteIndex < rootIndex), use the next octave
       const octave = noteIndex < rootIndex ? 5 : 4
-      return `${notes[noteIndex]}${octave}`
+      const note = notes[noteIndex]
+      // Convert to flat notation if the root note is in flatScaleRoots
+      const displayNote = flatScaleRoots.includes(rootNote) ? convertToFlatNotation(note) : note
+      return `${displayNote}${octave}`
     })
+  }
+
+  const removeOctaveNumbers = (notes: string[]) => {
+    return notes.map(note => note.replace(/\d+$/, ''))
   }
 
   const handleChordSelect = (chord: string, isRootColumn: boolean) => {
@@ -118,7 +144,7 @@ function App() {
               />
             </Box>
             <Typography variant="h5" align="center" gutterBottom>
-              {selectedChord}
+              {removeOctaveNumbers(getHighlightedNotes(selectedChord)).join(' - ')}
             </Typography>
           </Paper>
           <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
