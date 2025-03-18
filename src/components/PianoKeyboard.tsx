@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles'
 
 interface PianoKeyboardProps {
   highlightedNotes: string[]
+  rootNote?: string
 }
 
 const WhiteKey = styled(Paper)(({ theme }) => ({
@@ -14,6 +15,9 @@ const WhiteKey = styled(Paper)(({ theme }) => ({
   cursor: 'pointer',
   '&.highlighted': {
     backgroundColor: theme.palette.primary.light,
+  },
+  '&.root': {
+    backgroundColor: theme.palette.root.main,
   }
 }))
 
@@ -52,13 +56,24 @@ const BlackKey = styled(Paper)(({ theme }) => ({
   cursor: 'pointer',
   '&.highlighted': {
     backgroundColor: theme.palette.primary.dark,
+  },
+  '&.root': {
+    backgroundColor: theme.palette.root.dark,
   }
 }))
 
-const PianoKeyboard = ({ highlightedNotes }: PianoKeyboardProps) => {
+const PianoKeyboard = ({ highlightedNotes, rootNote }: PianoKeyboardProps) => {
   const whiteNotes = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
   // const allNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
   const octave = 4
+
+  const getKeyClassName = (note: string, octaveIndex: number) => {
+    const fullNote = `${note}${octave + octaveIndex}`
+    if (rootNote && note === rootNote && octaveIndex === 0) {
+      return 'root'
+    }
+    return highlightedNotes.includes(fullNote) ? 'highlighted' : ''
+  }
 
   return (
     <Box sx={{ position: 'relative', display: 'inline-block', p: 2 }}>
@@ -74,7 +89,7 @@ const PianoKeyboard = ({ highlightedNotes }: PianoKeyboardProps) => {
               }}
             >
               <WhiteKey
-                className={highlightedNotes.includes(`${note}${octave + octaveIndex}`) ? 'highlighted' : ''}
+                className={getKeyClassName(note, octaveIndex)}
               />
               <KeyLabel>
                 {note}
@@ -82,7 +97,7 @@ const PianoKeyboard = ({ highlightedNotes }: PianoKeyboardProps) => {
               {/* Render black keys after certain white keys */}
               {['C', 'D', 'F', 'G', 'A'].includes(note) && (
                 <BlackKey
-                  className={highlightedNotes.includes(`${note}#${octave + octaveIndex}`) ? 'highlighted' : ''}
+                  className={getKeyClassName(note + '#', octaveIndex)}
                 />
               )}
             </Box>

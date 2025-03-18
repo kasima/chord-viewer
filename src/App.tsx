@@ -5,6 +5,21 @@ import { Container, Box, Typography, Paper } from '@mui/material'
 import PianoKeyboard from './components/PianoKeyboard'
 import ChordTable from './components/ChordTable'
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    root: {
+      main: string;
+      dark: string;
+    };
+  }
+  interface PaletteOptions {
+    root?: {
+      main: string;
+      dark: string;
+    };
+  }
+}
+
 const theme = createTheme({
   palette: {
     mode: 'dark',
@@ -13,6 +28,10 @@ const theme = createTheme({
     },
     secondary: {
       main: '#f48fb1',
+    },
+    root: {
+      main: '#ffd54f',  // Bright yellow/amber
+      dark: '#ffa000',  // Darker amber for black keys
     },
     background: {
       default: '#121212',
@@ -92,7 +111,10 @@ function App() {
           </Typography>
           <Paper sx={{ p: 2, mb: 4 }}>
             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-              <PianoKeyboard highlightedNotes={getHighlightedNotes(selectedChord)} />
+              <PianoKeyboard 
+                highlightedNotes={getHighlightedNotes(selectedChord)} 
+                rootNote={selectedChord.charAt(0) + (selectedChord.charAt(1) === '#' ? '#' : '')}
+              />
             </Box>
             <Typography variant="h5" align="center" gutterBottom>
               {selectedChord}
