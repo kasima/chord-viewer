@@ -31,7 +31,8 @@ const chordIntervals = {
   'aug': [0, 4, 8], // Augmented
 }
 
-const majorScaleIntervals = [0, 2, 4, 5, 7, 9, 11] // Major scale intervals
+// Major scale pattern: W-W-H-W-W-W-H (where W=2 semitones, H=1 semitone)
+const majorScaleIntervals = [0, 2, 4, 5, 7, 9, 11] // Major scale intervals: Root, M2, M3, P4, P5, M6, M7
 
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
@@ -41,28 +42,39 @@ function App() {
 
   const getMajorScaleNotes = (rootNote: string) => {
     const rootIndex = notes.indexOf(rootNote)
-    return majorScaleIntervals.map(
-      (interval) => `${notes[(rootIndex + interval) % 12]}4`
-    )
+    if (rootIndex === -1) return []
+    
+    return majorScaleIntervals.map(interval => {
+      const noteIndex = (rootIndex + interval) % 12
+      // If we've wrapped around (noteIndex < rootIndex), use the next octave
+      const octave = noteIndex < rootIndex ? 5 : 4
+      return `${notes[noteIndex]}${octave}`
+    })
   }
 
   const getHighlightedNotes = (chord: string) => {
+    // Extract root note first, properly handling sharp notes
     let rootNote = chord.charAt(0)
-    if (chord.charAt(1) === '#') {
+    const hasSharp = chord.charAt(1) === '#'
+    if (hasSharp) {
       rootNote = rootNote + '#'
     }
-    
+    const rootIndex = notes.indexOf(rootNote)
+    if (rootIndex === -1) return []
+
     // If we're showing a scale (only happens from root column clicks)
     if (showingScale) {
       return getMajorScaleNotes(rootNote)
     }
 
-    const chordType = chord.slice(rootNote.length)
-    const rootIndex = notes.indexOf(rootNote)
-    
-    return chordIntervals[chordType as keyof typeof chordIntervals].map(
-      (interval) => `${notes[(rootIndex + interval) % 12]}4`
-    )
+    // For chords
+    const chordType = chord.slice(hasSharp ? 2 : 1)
+    return chordIntervals[chordType as keyof typeof chordIntervals].map(interval => {
+      const noteIndex = (rootIndex + interval) % 12
+      // If we've wrapped around (noteIndex < rootIndex), use the next octave
+      const octave = noteIndex < rootIndex ? 5 : 4
+      return `${notes[noteIndex]}${octave}`
+    })
   }
 
   const handleChordSelect = (chord: string, isRootColumn: boolean) => {
