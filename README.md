@@ -52,6 +52,10 @@ npm run dev
 - Click on any chord in the table to see its notes highlighted on the keyboard
 - Explore different root notes and chord types to understand their relationships
 
+## ⚠️ Operator's Disclaimer
+
+Please excuse any mistakes in music theory or implementation – this project was created with the assistance of AI through vibing in Cursor. While we aimed for accuracy, there might be some unexpected interpretations of musical concepts.
+
 ## 📝 License
 
 MIT
