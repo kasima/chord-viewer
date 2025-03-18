@@ -80,10 +80,4 @@ button:focus-visible {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.MuiPaper-root {
-  transition: transform 0.2s ease-in-out;
-}
-
-.MuiPaper-root:hover {
-  transform: translateY(-2px);
-}
+/* Removing Paper hover effect */

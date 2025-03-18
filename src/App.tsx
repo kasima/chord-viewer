@@ -110,7 +110,7 @@ function App() {
           <Typography variant="h3" component="h1" gutterBottom align="center">
             Chord Viewer
           </Typography>
-          <Paper sx={{ p: 2, mb: 4 }}>
+          <Paper sx={{ p: 2, mb: 4, position: 'relative' }} elevation={0}>
             <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
               <PianoKeyboard 
                 highlightedNotes={getHighlightedNotes(selectedChord)} 
