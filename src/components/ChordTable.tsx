@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Divider } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableRow, Paper, Divider } from '@mui/material'
 import { useEffect, useState, KeyboardEvent } from 'react'
 
 interface ChordTableProps {
@@ -108,16 +108,6 @@ const ChordTable = ({ onChordSelect, selectedChord, showingScale }: ChordTablePr
       sx={{ outline: 'none' }}
     >
       <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Type</TableCell>
-            {rootNotes.map((root) => (
-              <TableCell key={root} align="center">
-                {root}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
         <TableBody>
           <TableRow>
             <TableCell component="th" scope="row">
@@ -131,6 +121,10 @@ const ChordTable = ({ onChordSelect, selectedChord, showingScale }: ChordTablePr
                   cursor: 'pointer',
                   backgroundColor: showingScale && selectedChord === root ? 'primary.main' : 'background.paper',
                   color: showingScale && selectedChord === root ? 'primary.contrastText' : 'text.primary',
+                  border: showingScale && (selectedChord === root || selectedChord === rootNotes[(rootNotes.indexOf(root) - 3 + 12) % 12] + 'm') ? '2px solid' : 'none',
+                  borderColor: 'secondary.main',
+                  borderBottom: '1px solid',
+                  borderBottomColor: 'divider',
                 }}
                 onClick={() => onChordSelect(root, true)}
               >
@@ -150,10 +144,12 @@ const ChordTable = ({ onChordSelect, selectedChord, showingScale }: ChordTablePr
                   cursor: 'pointer',
                   backgroundColor: showingScale && selectedChord === root + 'm' ? 'primary.main' : 'background.paper',
                   color: showingScale && selectedChord === root + 'm' ? 'primary.contrastText' : 'text.primary',
+                  border: showingScale && selectedChord === rootNotes[(rootNotes.indexOf(root) + 3) % 12] ? '2px solid' : 'none',
+                  borderColor: 'secondary.main',
                 }}
                 onClick={() => onChordSelect(root + 'm', true)}
               >
-                {root}
+                {root.toLowerCase()}
               </TableCell>
             ))}
           </TableRow>
