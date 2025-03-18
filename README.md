@@ -22,7 +22,7 @@ Vibed up using [Cursor](https://cursor.sh), the world's best IDE.
 
 1. Clone the repository:
 ```bash
-git clone [your-repo-url]
+git clone https://github.com/kasima/chord-viewer.git
 cd chord-viewer
 ```
 
