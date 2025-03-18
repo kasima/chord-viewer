@@ -5,6 +5,7 @@ interface ChordTableProps {
   onChordSelect: (chord: string, isRootColumn: boolean) => void
   selectedChord: string
   showingScale: boolean
+  alignMinorScale: boolean
 }
 
 const commonChords = [
@@ -19,7 +20,7 @@ const commonChords = [
 
 const rootNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
-const ChordTable = ({ onChordSelect, selectedChord, showingScale }: ChordTableProps) => {
+const ChordTable = ({ onChordSelect, selectedChord, showingScale, alignMinorScale }: ChordTableProps) => {
   const [focusPosition, setFocusPosition] = useState({ row: 0, col: 0 })
 
   // Calculate actual row numbers accounting for the divider
@@ -100,6 +101,14 @@ const ChordTable = ({ onChordSelect, selectedChord, showingScale }: ChordTablePr
     }
   }, [selectedChord, showingScale]);
 
+  const getMinorScaleRoots = () => {
+    if (!alignMinorScale) {
+      return rootNotes;
+    }
+    // Shift the minor scale roots by 3 semitones down to align with their relative major
+    return rootNotes.map((_, index) => rootNotes[(index - 3 + 12) % 12]);
+  };
+
   return (
     <TableContainer 
       component={Paper} 
@@ -136,7 +145,7 @@ const ChordTable = ({ onChordSelect, selectedChord, showingScale }: ChordTablePr
             <TableCell component="th" scope="row">
               Minor Scale
             </TableCell>
-            {rootNotes.map((root) => (
+            {getMinorScaleRoots().map((root) => (
               <TableCell
                 key={root}
                 align="center"

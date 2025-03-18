@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import { Container, Box, Typography, Paper } from '@mui/material'
+import { Container, Box, Typography, Paper, FormControlLabel, Switch } from '@mui/material'
 import PianoKeyboard from './components/PianoKeyboard'
 import ChordTable from './components/ChordTable'
 
@@ -58,6 +58,7 @@ const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 function App() {
   const [selectedChord, setSelectedChord] = useState<string>('C')
   const [showingScale, setShowingScale] = useState(false)
+  const [alignMinorScale, setAlignMinorScale] = useState(false)
 
   const getMajorScaleNotes = (rootNote: string) => {
     const rootIndex = notes.indexOf(rootNote)
@@ -120,10 +121,23 @@ function App() {
               {selectedChord}
             </Typography>
           </Paper>
+          <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={alignMinorScale}
+                  onChange={(e) => setAlignMinorScale(e.target.checked)}
+                  color="primary"
+                />
+              }
+              label="Align minor scale with relative major"
+            />
+          </Box>
           <ChordTable
             selectedChord={selectedChord}
             onChordSelect={handleChordSelect}
             showingScale={showingScale}
+            alignMinorScale={alignMinorScale}
           />
         </Box>
       </Container>
