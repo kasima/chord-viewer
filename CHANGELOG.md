@@ -2,6 +2,36 @@
 
 All notable changes to the chord-viewer project will be documented in this file.
 
+## [0.1.9] - 2024-03-21
+
+### Fixed
+- Completely reworked keyboard navigation to properly handle minor scale selection
+- Added logic to skip the divider row when navigating with arrow keys 
+- Fixed minor scale selection with proper row indexing
+- Added named constants for row positions for better maintainability
+
+## [0.1.8] - 2024-03-21
+
+### Fixed
+- Fixed keyboard navigation to properly include minor scale row
+- Corrected row counting in navigation logic
+
+## [0.1.7] - 2024-03-21
+
+### Added
+- Minor scale row to the chord table
+- Visual divider between scales and chords
+- Updated keyboard navigation to handle new row structure
+
+## [0.1.6] - 2024-03-21
+
+### Changed
+- Inverted chord table layout:
+  - Root notes now appear as columns across the top
+  - Chord types and scales appear as rows on the left
+  - Updated keyboard navigation to match new layout
+  - Maintained all existing functionality with new structure
+
 ## [0.1.5] - 2024-03-21
 
 ### Changed
