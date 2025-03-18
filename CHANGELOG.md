@@ -2,6 +2,23 @@
 
 All notable changes to the chord-viewer project will be documented in this file.
 
+## [0.1.5] - 2024-03-21
+
+### Changed
+- Updated keyboard navigation behavior:
+  - Arrow keys now immediately select chords/scales
+  - Removed visual focus indicator
+  - Simplified navigation interaction
+
+## [0.1.4] - 2024-03-21
+
+### Added
+- Keyboard navigation in chord table:
+  - Use arrow keys to move between cells
+  - Press Enter or Space to select a chord
+  - Visual focus indicator shows current position
+  - Wraps around at table edges
+
 ## [0.1.3] - 2024-03-21
 
 ### Fixed
